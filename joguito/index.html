@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corrida do Conhecimento</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="start-screen">
+        <h1>Corrida do Conhecimento</h1>
+        <input type="text" id="player-name" placeholder="Digite seu nome" required>
+        <button id="start-button">Iniciar Corrida</button>
+    </div>
+
+    <div id="game-container">
+        <div id="road"></div>
+        <div id="car"></div>
+        <div id="finish-line"></div>
+        
+        <div id="question-container">
+            <div id="question">Pergunta aparecerá aqui</div>
+            <button class="option" id="option1">Opção 1</button>
+            <button class="option" id="option2">Opção 2</button>
+            <button class="option" id="option3">Opção 3</button>
+        </div>
+        
+        <div id="lives-container">
+            <div class="heart"></div>
+            <div class="heart"></div>
+            <div class="heart"></div>
+        </div>
+        
+        <div id="score">Pontos: 0</div>
+        
+        <div id="game-over">
+            <h2>Fim de Jogo!</h2>
+            <div id="final-score">Sua pontuação: <span id="score-display">0</span></div>
+            <button id="restart-button">Jogar Novamente</button>
+            <div id="leaderboard">
+                <h3>Placar de Líderes</h3>
+                <ul id="leaderboard-list"></ul>
+            </div>
+        </div>
+        
+        <div id="win-screen">
+            <h2>Você Venceu!</h2>
+            <div id="final-score-win">Sua pontuação: <span id="score-display-win">0</span></div>
+            <button id="restart-button-win">Jogar Novamente</button>
+            <div id="leaderboard-win">
+                <h3>Placar de Líderes</h3>
+                <ul id="leaderboard-list-win"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
