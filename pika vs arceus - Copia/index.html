@@ -853,27 +853,6 @@
             loadHighScores();
         }
         
-        // Funções para tela cheia
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.error(`Erro ao tentar entrar em tela cheia: ${err.message}`);
-                });
-                fullscreenButton.textContent = 'Sair da Tela Cheia';
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                    fullscreenButton.textContent = 'Tela Cheia';
-                }
-            }
-        }
-        
-        // Detecta mudanças no modo tela cheia
-        document.addEventListener('fullscreenchange', function() {
-            if (!document.fullscreenElement) {
-                fullscreenButton.textContent = 'Tela Cheia';
-            }
-        });
     </script>
 </body>
 </html>
