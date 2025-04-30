@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Fire Red - Pikachu vs Arceus</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #78c850, #98d8d8);
+            height: 100vh;
+            overflow: hidden;
+            color: #333;
+        }
+
+        #start-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        #start-screen h1 {
+            color: #f8d030;
+            text-shadow: 3px 3px 0 #b8a038, -1px -1px 0 #b8a038, 1px -1px 0 #b8a038, -1px 1px 0 #b8a038, 1px 1px 0 #b8a038;
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        #start-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        #player-name {
+            padding: 10px;
+            font-size: 1.2em;
+            border: 3px solid #f8d030;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        #name-label {
+            color: white;
+            font-size: 1.5em;
+            margin-bottom: -10px;
+        }
+
+        #start-button {
+            padding: 10px 30px;
+            font-size: 1.5em;
+            background-color: #f8d030;
+            border: none;
+            border-radius: 5px;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #start-button:hover {
+            background-color: #f0c808;
+            transform: scale(1.05);
+        }
+
+        #game-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        #player {
+            position: absolute;
+            bottom: 50px;
+            left: 50px;
+            width: 150px;
+            height: 150px;
+            background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 2;
+        }
+
+        #enemy {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            width: 200px;
+            height: 200px;
+            background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/493.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 2;
+        }
+
+        .health-bar-container {
+            position: absolute;
+            width: 200px;
+            height: 20px;
+            border: 2px solid #000;
+            border-radius: 5px;
+            overflow: hidden;
+            background-color: #ddd;
+        }
+
+        .health-bar {
+            height: 100%;
+            width: 100%;
+            background-color: #4CAF50;
+            transition: width 0.3s;
+        }
+
+        #player-health-container {
+            top: 10px;
+            left: 10px;
+        }
+
+        #enemy-health-container {
+            top: 10px;
+            right: 10px;
+        }
+
+        .health-text {
+            position: absolute;
+            font-weight: bold;
+            text-shadow: 1px 1px 0 white;
+        }
+
+        #player-health-text {
+            top: 35px;
+            left: 10px;
+        }
+
+        #enemy-health-text {
+            top: 35px;
+            right: 10px;
+            text-align: right;
+        }
+
+        #player-name-display {
+            position: absolute;
+            top: 10px;
+            left: 220px;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-shadow: 1px 1px 0 white;
+        }
+
+        #enemy-name-display {
+            position: absolute;
+            top: 10px;
+            right: 220px;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-shadow: 1px 1px 0 white;
+        }
+
+        #battle-options {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 300px;
+        }
+
+        .battle-button {
+            padding: 10px;
+            background-color: #f8d030;
+            border: 2px solid #b8a038;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .battle-button:hover {
+            background-color: #f0c808;
+            transform: scale(1.05);
+        }
+
+        #battle-log {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 400px;
+            height: 150px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border: 2px solid #b8a038;
+            border-radius: 5px;
+            padding: 10px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+        }
+
+        .log-entry {
+            margin-bottom: 5px;
+        }
+
+        .damage-animation {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-5px, 5px); }
+            50% { transform: translate(5px, -5px); }
+            75% { transform: translate(-5px, 5px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        .attack-animation {
+            animation: attack 0.3s;
+        }
+
+        @keyframes attack {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(20px, -20px); }
+            100% { transform: translate(0, 0); }
+        }
+    </style>
+</head>
+<body>
+    <div id="start-screen">
+        <h1>Pokémon Fire Red</h1>
+        <form id="start-form">
+            <label id="name-label" for="player-name">Nomeie seu Pikachu!</label>
+            <input type="text" id="player-name" placeholder="Ex: Ash" required>
+            <button type="button" id="start-button">Iniciar Partida</button>
+        </form>
+    </div>
+
+    <div id="game-container">
+        <div id="player-name-display"></div>
+        <div id="enemy-name-display">Arceus</div>
+        
+        <div id="player-health-container" class="health-bar-container">
+            <div id="player-health-bar" class="health-bar"></div>
+        </div>
+        <div id="player-health-text">100/100</div>
+        
+        <div id="enemy-health-container" class="health-bar-container">
+            <div id="enemy-health-bar" class="health-bar"></div>
+        </div>
+        <div id="enemy-health-text">5000/5000</div>
+        
+        <div id="player"></div>
+        <div id="enemy"></div>
+        
+        <div id="battle-log"></div>
+        
+        <div id="battle-options">
+            <button class="battle-button" id="attack1">Investida</button>
+            <button class="battle-button" id="attack2">Choque do Trovão</button>
+            <button class="battle-button" id="attack3">Cauda de Ferro</button>
+            <button class="battle-button" id="attack4">Ataque Rápido</button>
+        </div>
+    </div>
+
+    <script>
+        // Game variables
+        let playerName = "";
+        let playerHealth = 100;
+        let enemyHealth = 5000;
+        let gameActive = false;
+        
+        // DOM elements
+        const startScreen = document.getElementById('start-screen');
+        const gameContainer = document.getElementById('game-container');
+        const playerNameInput = document.getElementById('player-name');
+        const startButton = document.getElementById('start-button');
+        const playerNameDisplay = document.getElementById('player-name-display');
+        const playerHealthBar = document.getElementById('player-health-bar');
+        const playerHealthText = document.getElementById('player-health-text');
+        const enemyHealthBar = document.getElementById('enemy-health-bar');
+        const enemyHealthText = document.getElementById('enemy-health-text');
+        const battleLog = document.getElementById('battle-log');
+        const playerElement = document.getElementById('player');
+        const enemyElement = document.getElementById('enemy');
+        const attackButtons = [
+            document.getElementById('attack1'),
+            document.getElementById('attack2'),
+            document.getElementById('attack3'),
+            document.getElementById('attack4')
+        ];
+        
+        // Initialize game
+        function initGame() {
+            playerName = playerNameInput.value.trim() || "Pikachu";
+            playerNameDisplay.textContent = playerName;
+            
+            startScreen.style.display = "none";
+            gameContainer.style.display = "block";
+            
+            playerHealth = 100;
+            enemyHealth = 5000;
+            
+            updateHealthBars();
+            addToLog(`Batalha entre ${playerName} e Arceus começou!`);
+            
+            gameActive = true;
+        }
+        
+        // Update health bars
+        function updateHealthBars() {
+            const playerHealthPercent = (playerHealth / 100) * 100;
+            const enemyHealthPercent = (enemyHealth / 5000) * 100;
+            
+            playerHealthBar.style.width = `${playerHealthPercent}%`;
+            playerHealthText.textContent = `${playerHealth}/100`;
+            
+            enemyHealthBar.style.width = `${enemyHealthPercent}%`;
+            enemyHealthText.textContent = `${enemyHealth}/5000`;
+            
+            // Change color based on health
+            if (playerHealthPercent < 30) {
+                playerHealthBar.style.backgroundColor = "#f44336";
+            } else if (playerHealthPercent < 60) {
+                playerHealthBar.style.backgroundColor = "#ffeb3b";
+            } else {
+                playerHealthBar.style.backgroundColor = "#4CAF50";
+            }
+            
+            if (enemyHealthPercent < 30) {
+                enemyHealthBar.style.backgroundColor = "#f44336";
+            } else if (enemyHealthPercent < 60) {
+                enemyHealthBar.style.backgroundColor = "#ffeb3b";
+            } else {
+                enemyHealthBar.style.backgroundColor = "#4CAF50";
+            }
+        }
+        
+        // Add message to battle log
+        function addToLog(message) {
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            logEntry.textContent = message;
+            battleLog.appendChild(logEntry);
+            battleLog.scrollTop = battleLog.scrollHeight;
+        }
+        
+        // Player attack
+        function playerAttack(attackIndex) {
+            if (!gameActive) return;
+            
+            let damage = 0;
+            let attackName = "";
+            
+            switch(attackIndex) {
+                case 0: // Investida
+                    damage = Math.floor(Math.random() * 15) + 10;
+                    attackName = "Investida";
+                    break;
+                case 1: // Choque do Trovão
+                    damage = Math.floor(Math.random() * 30) + 20;
+                    attackName = "Choque do Trovão";
+                    break;
+                case 2: // Cauda de Ferro
+                    damage = Math.floor(Math.random() * 25) + 15;
+                    attackName = "Cauda de Ferro";
+                    break;
+                case 3: // Ataque Rápido
+                    damage = Math.floor(Math.random() * 20) + 5;
+                    attackName = "Ataque Rápido";
+                    break;
+            }
+            
+            // Apply damage
+            enemyHealth -= damage;
+            if (enemyHealth < 0) enemyHealth = 0;
+            
+            // Update UI
+            updateHealthBars();
+            addToLog(`${playerName} usou ${attackName} e causou ${damage} de dano!`);
+            
+            // Enemy damage animation
+            enemyElement.classList.add('damage-animation');
+            setTimeout(() => {
+                enemyElement.classList.remove('damage-animation');
+            }, 500);
+            
+            // Player attack animation
+            playerElement.classList.add('attack-animation');
+            setTimeout(() => {
+                playerElement.classList.remove('attack-animation');
+            }, 300);
+            
+            // Check if enemy is defeated
+            if (enemyHealth <= 0) {
+                gameActive = false;
+                addToLog(`Arceus foi derrotado! ${playerName} venceu a batalha!`);
+                return;
+            }
+            
+            // Enemy turn
+            setTimeout(enemyTurn, 1000);
+        }
+        
+        // Enemy turn
+        function enemyTurn() {
+            if (!gameActive) return;
+            
+            const attacks = [
+                { name: "Julgamento", damage: Math.floor(Math.random() * 40) + 20 },
+                { name: "Hiper Raio", damage: Math.floor(Math.random() * 50) + 30 },
+                { name: "Trovão", damage: Math.floor(Math.random() * 35) + 15 },
+                { name: "Explosão", damage: Math.floor(Math.random() * 45) + 25 }
+            ];
+            
+            const attack = attacks[Math.floor(Math.random() * attacks.length)];
+            
+            // Apply damage
+            playerHealth -= attack.damage;
+            if (playerHealth < 0) playerHealth = 0;
+            
+            // Update UI
+            updateHealthBars();
+            addToLog(`Arceus usou ${attack.name} e causou ${attack.damage} de dano!`);
+            
+            // Player damage animation
+            playerElement.classList.add('damage-animation');
+            setTimeout(() => {
+                playerElement.classList.remove('damage-animation');
+            }, 500);
+            
+            // Enemy attack animation
+            enemyElement.classList.add('attack-animation');
+            setTimeout(() => {
+                enemyElement.classList.remove('attack-animation');
+            }, 300);
+            
+            // Check if player is defeated
+            if (playerHealth <= 0) {
+                gameActive = false;
+                addToLog(`${playerName} foi derrotado! Arceus venceu a batalha!`);
+            }
+        }
+        
+        // Event listeners
+        startButton.addEventListener('click', initGame);
+        
+        attackButtons.forEach((button, index) => {
+            button.addEventListener('click', () => playerAttack(index));
+        });
+        
+        // Initialize UI
+        gameContainer.style.display = "none";
+        updateHealthBars();
+    </script>
+</body>
+</html>
