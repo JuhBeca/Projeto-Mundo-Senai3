@@ -430,6 +430,25 @@
             background-color: #f0c000;
             transform: scale(1.05);
         }
+         #rate-us-button {
+            padding: 10px 20px;
+            margin: 8px;
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            width: 100%;
+            max-width: 200px;
+        }
+
+        #rate-us-button:hover {
+            background-color: #e64a19;
+            transform: scale(1.05);
+        }
         @font-face {
   font-family: 'PokemonGBA';
   src: url('your-font.woff2') format('woff2'),
@@ -511,6 +530,7 @@
             
             <button id="restart-button" class="game-over-button">Jogar Novamente</button>
             <button id="clear-scores-button" class="game-over-button">Limpar Placar</button>
+             <button id="rate-us-button" onclick="window.location.href = 'https://docs.google.com/forms/d/1RSSfV0w-Wc32LJSlRoVKiY6OCXvWRtWoSgLBK3-98E0/edit#responses'">AVALIE-NOS!</button>
         </div>
     </div>
 
