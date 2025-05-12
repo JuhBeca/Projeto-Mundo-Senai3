@@ -5,6 +5,218 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokémon Fire Red Battle</title>
     <style>
+
+  /* CHOQUE DO TROVÃO - Versão Melhorada */
+.thunderbolt-final {
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 120px; /* Posição do Pikachu */
+    top: 380px;
+    z-index: 10;
+    pointer-events: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200"><path d="M0,50 L150,30 L200,80 L250,20 L350,70 L400,10 L550,60 L650,0 L800,50" stroke="%23FFEE00" stroke-width="12" fill="none" stroke-linecap="square" stroke-opacity="0.9"/></svg>');
+    background-repeat: no-repeat;
+    animation: thunderStrike 0.4s linear forwards;
+    transform-origin: left center;
+}
+
+@keyframes thunderStrike {
+    0% {
+        width: 0;
+        height: 50px;
+        transform: scaleX(0);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        width: 800px; /* Distância até o Arceus */
+        height: 100px;
+        transform: scaleX(1) rotate(-5deg);
+        opacity: 0;
+    }
+}
+
+/* Efeito de Impacto no Arceus */
+.thunder-hit {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    right: 50px;
+    top: 100px;
+    background: radial-gradient(circle, rgba(255,255,0,0.8) 0%, rgba(255,200,0,0) 70%);
+    border-radius: 50%;
+    animation: hitFlash 0.5s ease-out forwards;
+    z-index: 9;
+    opacity: 0;
+}
+
+@keyframes hitFlash {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); opacity: 0; }
+}
+
+/* Tremor no Arceus */
+@keyframes arceusShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px) rotate(-2deg); }
+    50% { transform: translateX(10px) rotate(2deg); }
+    75% { transform: translateX(-5px) rotate(-1deg); }
+}
+
+/* Efeito de Impacto (Pixel Art) */
+.thunder-impact {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%23FF0" stroke-width="4" stroke-dasharray="5,5"/><circle cx="50" cy="50" r="30" fill="none" stroke="%23FFEE00" stroke-width="3" stroke-dasharray="3,3"/></svg>');
+    background-repeat: no-repeat;
+    animation: impactShock 0.4s steps(3) forwards;
+    z-index: 9;
+    left: 600px;
+    top: 100px;
+    opacity: 0;
+}
+
+@keyframes impactShock {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); opacity: 0; }
+}
+
+     /* Efeitos de ataque - Versão Aprimorada */
+     .attack-effect {
+        position: absolute;
+        pointer-events: none;
+        z-index: 4;
+     }
+
+    /* Raio do Pikachu - Versão Aprimorada */
+    .thunderbolt {
+        width: 10px;
+        height: 0;
+        background: linear-gradient(to right, 
+            rgba(255,255,0,0.8), 
+            #ff0, 
+            rgba(255,255,255,0.9),
+            #ff0,
+            rgba(255,255,0,0.8));
+        box-shadow: 0 0 15px 5px #ff0,
+                    0 0 30px 10px rgba(255,255,0,0.5);
+        transform-origin: left center;
+        animation: thunderbolt 0.4s linear forwards;
+        border-radius: 50%;
+    }
+
+    @keyframes thunderbolt {
+        0% {
+            height: 5px;
+            width: 10px;
+            left: 120px;
+            top: 380px;
+            transform: rotate(0deg);
+            opacity: 0;
+        }
+        20% {
+            opacity: 1;
+        }
+        100% {
+            height: 8px;
+            width: 700px;
+            left: 120px;
+            top: 150px;
+            transform: rotate(-15deg);
+            opacity: 0;
+        }
+    }
+
+     /* Efeito de carga do raio */
+     .thunder-charge {
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: radial-gradient(circle, 
+            rgba(255,255,0,0.8), 
+            rgba(255,200,0,0.5), 
+            rgba(255,100,0,0));
+        box-shadow: 0 0 30px 15px #ff0;
+        animation: thunder-charge 0.3s ease-out forwards;
+        z-index: 3;
+        left: 100px;
+        top: 350px;
+    }
+
+    @keyframes thunder-charge {
+        0% {
+            width: 0;
+            height: 0;
+            opacity: 0;
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            width: 150px;
+            height: 150px;
+            opacity: 0;
+        }
+    }
+
+    /* Efeito de impacto no Arceus - Aprimorado */
+    .arceus-impact {
+        background: radial-gradient(circle, 
+            rgba(255,255,0,0.9), 
+            rgba(255,200,0,0.7), 
+            rgba(255,100,0,0.4),
+            rgba(255,50,0,0));
+        box-shadow: 0 0 40px 20px #ff0,
+                   0 0 60px 30px rgba(255,165,0,0.7);
+        animation: impact 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    /* Esfera do Arceus - Versão Aprimorada */
+    .cosmic-sphere {
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: radial-gradient(circle, 
+            #9c27b0, 
+            #7b1fa2, 
+            #4a148c);
+        box-shadow: 0 0 30px 10px #9c27b0,
+                   0 0 60px 20px rgba(156, 39, 176, 0.5);
+        animation: cosmic-sphere 0.7s ease-out forwards;
+        opacity: 0;
+    }
+
+    @keyframes cosmic-sphere {
+        0% {
+            width: 0;
+            height: 0;
+            left: 650px;
+            top: 200px;
+            opacity: 0;
+        }
+        20% {
+            width: 120px;
+            height: 120px;
+            opacity: 0.9;
+        }
+        100% {
+            width: 80px;
+            height: 80px;
+            left: 100px;
+            top: 380px;
+            opacity: 0;
+        }
+    }
+
+   
+    
         * {
             margin: 0;
             padding: 0;
@@ -535,6 +747,78 @@
     </div>
 
     <script>
+
+function createThunderbolt() {
+    // 1. Efeito de Carga Elétrica (antes do ataque)
+    const charge = document.createElement('div');
+    charge.style.position = 'absolute';
+    charge.style.left = '100px';
+    charge.style.top = '350px';
+    charge.style.width = '80px';
+    charge.style.height = '80px';
+    charge.style.background = 'radial-gradient(circle, #FFEE00 0%, rgba(255,238,0,0) 70%)';
+    charge.style.borderRadius = '50%';
+    charge.style.boxShadow = '0 0 25px 10px #FFEE00';
+    charge.style.animation = 'pulse 0.3s 2 alternate';
+    document.getElementById('game-container').appendChild(charge);
+
+    // 2. Raio Principal (500ms após a carga)
+    setTimeout(() => {
+        const thunder = document.createElement('div');
+        thunder.className = 'thunderbolt-final';
+        document.getElementById('game-container').appendChild(thunder);
+
+        // 3. Efeito de Impacto no Arceus
+        const impact = document.createElement('div');
+        impact.className = 'thunder-hit';
+        document.getElementById('game-container').appendChild(impact);
+
+        // 4. Animação de "dano" no Arceus
+        const arceus = document.getElementById('enemy-pokemon');
+        arceus.style.animation = 'arceusShake 0.5s 2';
+
+        // 5. Remover efeitos após a animação
+        setTimeout(() => {
+            thunder.remove();
+            impact.remove();
+            charge.remove();
+            arceus.style.animation = '';
+        }, 1000);
+
+    }, 300);
+}
+
+function createCosmicSphere() {
+    const cosmicSphere = document.createElement('div');
+    cosmicSphere.className = 'attack-effect cosmic-sphere';
+    document.getElementById('game-container').appendChild(cosmicSphere);
+    
+    // Efeito de impacto no Pikachu
+    setTimeout(() => {
+        const impact = document.createElement('div');
+        impact.className = 'attack-effect impact-effect pikachu-impact';
+        impact.style.left = '100px';
+        impact.style.top = '380px';
+        document.getElementById('game-container').appendChild(impact);
+        
+        // Tremor no Pikachu
+        const player = document.getElementById('player-pokemon');
+        player.style.transform = 'translate(5px, 5px)';
+        setTimeout(() => {
+            player.style.transform = 'translate(-5px, -5px)';
+            setTimeout(() => {
+                player.style.transform = 'translate(0, 0)';
+            }, 50);
+        }, 50);
+        
+        // Remove os elementos após a animação
+        setTimeout(() => {
+            cosmicSphere.remove();
+            impact.remove();
+        }, 1000);
+    }, 700);
+}
+
         // Variáveis do jogo
         let playerHealth = 1000;
         let enemyHealth = 5000;
@@ -857,73 +1141,75 @@
         }
         
         function checkAnswer(selectedIndex, correctIndex, attackType) {
-            // Esconde a tela de perguntas
-            document.getElementById('question-screen').style.display = 'none';
-            
-            if (selectedIndex === correctIndex) {
-                // Acertou - aplica dano ao inimigo
-                enemyHealth -= currentAttackDamage;
-                
-                // Adiciona pontos
-                let pointsToAdd = 0;
-                switch(attackType) {
-                    case "fast": pointsToAdd = 1000; break;
-                    case "discharge": pointsToAdd = 2500; break;
-                    case "thunder": pointsToAdd = 5000; break;
-                }
-                score += pointsToAdd;
-                
-                // Mostra o ataque
-                showAttackMessage(getAttackName(attackType), 'pikachu');
-                
-                // Verifica se o inimigo foi derrotado
-                if (enemyHealth <= 0) {
-                    enemyHealth = 0;
-                    setTimeout(endGame, 1500, true);
-                }
-            } else {
-                // Errou - sofre ataque do inimigo
-                let enemyAttack, enemyDamage;
-                
-                switch(attackType) {
-                    case "fast":
-                        enemyAttack = "JULGAMENTO!";
-                        enemyDamage = 250;
-                        break;
-                    case "discharge":
-                        enemyAttack = "CANÇÃO DA PERDIÇÃO!";
-                        enemyDamage = 175;
-                        break;
-                    case "thunder":
-                        enemyAttack = "PODER CÓSMICO!";
-                        enemyDamage = 50;
-                        break;
-                }
-                
-                // Subtrai pontos
-                let pointsToSubtract = 0;
-                switch(attackType) {
-                    case "fast": pointsToSubtract = 1000; break;
-                    case "discharge": pointsToSubtract = 2500; break;
-                    case "thunder": pointsToSubtract = 5000; break;
-                }
-                score = Math.max(0, score - pointsToSubtract);
-                
-                // Aplica dano ao jogador
-                playerHealth -= enemyDamage;
-                
-                // Mostra o ataque do inimigo
-                showAttackMessage(enemyAttack, 'arceus');
-                
-                // Verifica se o jogador foi derrotado
-                if (playerHealth <= 0) {
-                    playerHealth = 0;
-                    setTimeout(endGame, 1500, false);
-                }
-            }
-            
-            updateHealthBars();
+    // Esconde a tela de perguntas
+    document.getElementById('question-screen').style.display = 'none';
+    
+    if (selectedIndex === correctIndex) {
+        // Acertou - aplica dano ao inimigo
+        enemyHealth -= currentAttackDamage;
+        
+        // Adiciona pontos
+        let pointsToAdd = 0;
+        switch(attackType) {
+            case "fast": pointsToAdd = 1000; break;
+            case "discharge": pointsToAdd = 2500; break;
+            case "thunder": pointsToAdd = 5000; break;
         }
+        score += pointsToAdd;
+        
+        // Mostra o ataque
+        showAttackMessage(getAttackName(attackType), 'pikachu');
+        createThunderbolt(); // <-- Adiciona efeito visual
+        
+        // Verifica se o inimigo foi derrotado
+        if (enemyHealth <= 0) {
+            enemyHealth = 0;
+            setTimeout(endGame, 1500, true);
+        }
+    } else {
+        // Errou - sofre ataque do inimigo
+        let enemyAttack, enemyDamage;
+        
+        switch(attackType) {
+            case "fast":
+                enemyAttack = "JULGAMENTO!";
+                enemyDamage = 250;
+                break;
+            case "discharge":
+                enemyAttack = "CANÇÃO DA PERDIÇÃO!";
+                enemyDamage = 175;
+                break;
+            case "thunder":
+                enemyAttack = "PODER CÓSMICO!";
+                enemyDamage = 50;
+                break;
+        }
+        
+        // Subtrai pontos
+        let pointsToSubtract = 0;
+        switch(attackType) {
+            case "fast": pointsToSubtract = 1000; break;
+            case "discharge": pointsToSubtract = 2500; break;
+            case "thunder": pointsToSubtract = 5000; break;
+        }
+        score = Math.max(0, score - pointsToSubtract);
+        
+        // Aplica dano ao jogador
+        playerHealth -= enemyDamage;
+        
+        // Mostra o ataque do inimigo
+        showAttackMessage(enemyAttack, 'arceus');
+        createCosmicSphere(); // <-- Adiciona efeito visual
+        
+        // Verifica se o jogador foi derrotado
+        if (playerHealth <= 0) {
+            playerHealth = 0;
+            setTimeout(endGame, 1500, false);
+        }
+    }
+    
+    updateHealthBars();
+}
         
         function getAttackName(attackType) {
             switch(attackType) {
